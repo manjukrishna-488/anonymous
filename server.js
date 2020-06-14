@@ -39,9 +39,10 @@ app.post("/",function(req,res){
 
     const request=https.request(url,options,function(response){ //used for posting data to mailchimp
           if(response.statusCode===200){//if successful
-            res.send("Successfully subscribed!");
+            res.sendFile( __dirname + "/success.html");
           }else
-            res.send("Please try again!");
+          res.sendFile( __dirname + "/failure.html");
+
          response.on("data",function(data){// post when "data" is recieved
            console.log(JSON.parse(data));//for confirmation for the developer
          });
@@ -58,4 +59,8 @@ app.post("/",function(req,res){
 
 app.get("/",function(req,res){
   res.sendFile(__dirname+"/index.html");
+});
+
+app.post("/failure",function(req,res){
+  res.redirect("/");
 });
